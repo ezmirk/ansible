@@ -1,0 +1,41 @@
+---
+- name: Ansible_vim
+  hosts: localhost
+  remote_user: root
+  gather_facts: no
+
+  tasks:
+    - name: Install vim-enhanced 
+      yum: 
+        name: vim-enhanced
+        state: present
+    - name: Download ansible-vim
+      shell: "curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+              https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+    - name: configure vimrc 
+      lineinfile:
+        dest: ~/.vimrc
+        line: "{{ item }}"
+      with_items:
+        - "set autoindent" 
+        - "set cindent" 
+        - "set number"
+        - "set smartcase"
+        - "set smarttab"
+        - "call plug#begin('~/.vim/plugged')" 
+        - "Plug 'pearofducks/ansible-vim'"
+        - "call plug#end()"
+    - name: configure bashrc
+      lineinfile:
+        dest: ~/.bashrc
+        line: "{{ item }}"
+      with_items:
+        - "alias vi='vim'" 
+        - "alias ans='ansible'"
+        - "alias anp='ansible-playbook'"
+    - name: install vim-Plugin
+      shell: "vim -E -c 'PlugInstall' -c 'source ~/.vimrc' -c 'qa' || true" 
+      ignore_errors: yes
+    - name: bash reload
+      shell: "source ~/.bashrc"
+

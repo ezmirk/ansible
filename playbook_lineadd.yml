@@ -1,0 +1,40 @@
+---
+- name: Test
+  hosts: new
+  remote_user: sysop
+  become: yes
+  become_user: root
+  tasks:
+    - name: lineadd sudoers
+      blockinfile:
+        path: '/etc/sudoers'
+        block: |
+          zabbix  ALL=(root) NOPASSWD: /usr/sbin/smartctl
+          zabbix  ALL=(root) NOPASSWD: /opt/zabbix_s/smartctl-storage-discovery.sh
+
+
+    - name: lineadd zabbix end
+      blockinfile:
+        path: '/etc/zabbix/zabbix_agentd.conf'
+        block: |
+          UserParameter=storage.get[*],sudo smartctl -i -H -A -l error -l background $1
+          UserParameter=storage.discovery[*],sudo /opt/zabbix_s/smartctl-storage-discovery.sh
+
+    - name: lineadd zebbis server
+      lineinfile:
+        path: /etc/zabbix/zabbix_agentd.conf
+        regexp: '^Server='
+        line: Server=zabbix.daumsoft.com
+
+#      lineinfile: 믄지얄 삭제
+#        path: '/etc/sudoers'
+#        regexp: 'zabbix  ALL='
+#        line: ''
+
+
+#        line: '- zabbix  ALL=(root) NOPASSWD: /usr/sbin/smartctl'
+#        line: '- zabbix  ALL=(root) NOPASSWD: /opt/zabbix_s/smartctl-storage-discovery.sh'
+        #line: 'UserParameter=storage.get[*],sudo smartctl -i -H -A -l error -l background $1'
+        #line: UserParameter=storage.discovery[*],sudo /opt/zabbix_s/smartctl-storage-discovery.sh
+#        insertafter: EOF
+

@@ -1,0 +1,24 @@
+---
+- name: Test
+  hosts: new
+  remote_user: sysop
+  become: yes
+  become_user: root
+  tasks:
+     - name: Transfer the script
+       file:
+        path: /opt/zabbix_s
+        state: directory
+        mode: '0750'
+
+     - name: Recursively change ownership of a directory
+       file:
+        path: /opt/zabbix_s
+        state: directory
+        recurse: yes
+        owner: root
+        group: zabbix
+
+     - name: Transfer the script
+       copy: src=smartctl-storage-discovery.sh dest=/opt/zabbix_s mode=0755
+

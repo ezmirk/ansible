@@ -1,0 +1,12 @@
+---
+- name: Test
+  hosts: mining3x
+  remote_user: sysop
+  become: yes
+  tasks:
+    - name: Execute the script 1
+      shell:
+        cmd: 'sudo pkill -9 zabbix && sudo /usr/local/sbin/zabbix_agentd -c /etc/zabbix/zabbix_agentd.conf'
+
+
+

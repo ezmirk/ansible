@@ -1,0 +1,12 @@
+---
+- name: Test
+    hosts: test
+    remote_user: sysop
+    become: yes
+    become_user: root
+    tasks : 
+      lineinfile:
+      path: /etc/selinux/config
+      regexp: '^Server='
+      line: SELINUX=enforcing
+

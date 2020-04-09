@@ -1,0 +1,13 @@
+---
+- name: Test
+  hosts: new
+  remote_user: sysop
+  become: yes
+  tasks:
+    - name: Execute the script 1
+      shell:
+        cmd: 'pkill -9 zabbix_agent & sleep 2 & /usr/local/sbin/zabbix_agentd -c /etc/zabbix/zabbix_agentd.conf'
+
+
+
+

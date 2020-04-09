@@ -1,0 +1,11 @@
+---
+- hosts: new
+  remote_user: sysop
+  tasks:
+    - name: Change User Password
+      user: name="{{ trendmap }}"
+        password="{{ trendmap2010 | password_hash('sha512') }}"
+        update_password=always
+        shell=/bin/bash
+  become: yes
+  become_user: root

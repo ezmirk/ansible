@@ -1,0 +1,13 @@
+---
+- name: Test
+  hosts: trendmap
+  remote_user: trendmap
+  become: yes
+  tasks:
+    - name: Transfer the script
+      copy: src=useradd.sh dest=/home/trendmap mode=0755
+
+    - name: Execute the script
+      command: sh /home/trendmap/useradd.sh
+
+

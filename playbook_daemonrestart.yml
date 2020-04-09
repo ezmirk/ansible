@@ -1,0 +1,25 @@
+---
+- name: Test
+  hosts: new
+  remote_user: sysop
+  become: yes
+  become_user: root
+  tasks:
+     - name: pkill zabbix
+       shell:
+         cmd:  pkill -9 zabbix 
+
+  
+     - name: restart zabbix
+       shell:
+         cmd:  /usr/local/sbin/zabbix_agentd -c /etc/zabbix/zabbix_agentd.conf 
+
+
+#&& /usr/local/sbin/zabbix_agentd -c /etc/zabbix/zabbix_agentd.conf && systemctl restart zabbix-agent
+
+
+
+
+#  handlers:
+#    - name: daemon restart
+#      service: name=zabbix-agent starte=restarted

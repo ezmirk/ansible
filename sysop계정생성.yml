@@ -1,0 +1,12 @@
+---
+- name: sysop계정 생성
+  hosts: new
+  remote_user: sysop
+  become: yes
+  become_user: root
+  become_method: su
+  tasks:
+    - name: Execute the script 1
+      shell:
+#       cmd: 'useradd sysop --create-home --password "$(openssl passwd -1 "sysadmin")" --shell /bin/bash && echo "sysop   ALL=NOPASSWD: ALL" >> /etc/sudoers && exit'
+        cmd: 'passwd -d sysop'

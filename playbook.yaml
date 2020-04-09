@@ -1,0 +1,15 @@
+---
+- name: Test
+  hosts: mining
+  remote_user: sysop
+  become: yes
+  become_user: root
+  tasks:
+     - name: Transfer the script
+       copy: src=a.sh dest=/home/sysop mode=0777
+
+     - name: Execute the script
+       command: sh /home/sysop/a.sh
+
+     - name: Transfer common
+       fetch: src=common20200131 dest=/home/sysop/{{ inventory_hostname }} mode=0777
